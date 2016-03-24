@@ -81,6 +81,14 @@
     <servlet-name>createKf5Final</servlet-name>
     <url-pattern>/createKf5Final</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>viewKf5</servlet-name>
+    <servlet-class>com.blueware.main.ViewKf5Servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>viewKf5</servlet-name>
+    <url-pattern>/viewKf5</url-pattern>
+  </servlet-mapping>
   <listener>
     <listener-class>com.blueware.util.Listener</listener-class>
   </listener>

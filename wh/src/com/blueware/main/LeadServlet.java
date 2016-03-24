@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.blueware.entity.manage.Info;
 import com.blueware.service.LeadIdentifyService;
+import com.blueware.service.mail.SendCloudService;
 
 /**
  * Servlet implementation class LeadServlet
@@ -46,6 +47,7 @@ public class LeadServlet extends HttpServlet {
 	    Info info = LeadIdentifyService.IdentifyByMsg(email,phone,openId);
 	    if(info != null){
 //	    	request.setAttribute("name", info.getName());
+//	    	SendCloudService.sendCloud(email, html, "«Î—È÷§” œ‰", 0L, 0);
 	    	response.getWriter().print(info.getName());
 //	    	request.getRequestDispatcher("BindSuccess.jsp").forward(request, response);
 	    }else{

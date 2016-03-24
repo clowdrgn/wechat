@@ -20,7 +20,6 @@
 <div class="login-form">
 	<div class="close"> </div>
 		<div class="head-info">
-		<h4>请填写工单信息</h4>
 		</div>
 			<div class="clear"> </div>
 	<div class="avtar">

@@ -45,13 +45,14 @@ public class WeChatMenuService extends OneTools{
 			}
 		}
 		public static void createOwnMenue(){
-			String menu = "{\"button\":[{\"name\":\"帮助\",\"sub_button\":[{\"type\":\"click\",\"name\":\"创建工单\",\"key\":\"commitKf5\"},{\"type\":\"view\",\"name\":\"查看工单\",\"url\":\"https://oneapm.kf5.com/user/access\"}]},{\"type\":\"view\",\"name\":\"文档\",\"url\":\"http://support.oneapm.com/\"},{\"type\":\"click\",\"name\":\"免费注册\",\"key\":\"register\"}]}";
-	        String access_token= "oDDTPCSbX7iJoAgMB-65gVnr8jzGqIPcEqh_ixjIcI9t132zUwfJnr_NFvuyzJH8WibnLMYIAEiWdMywfOYHEBt703C2eOA2IOBDqCLTLfLqIF4T8YhyySfvXBnx9BnNXNOhAGANDE";
+			String menu = "{\"button\":[{\"name\":\"帮助\",\"sub_button\":[{\"type\":\"click\",\"name\":\"创建工单\",\"key\":\"commitKf5\"},{\"type\":\"click\",\"name\":\"查看工单\",\"key\":\"viewKf5\"}]},{\"type\":\"view\",\"name\":\"文档\",\"url\":\"http://support.oneapm.com/\"},{\"type\":\"click\",\"name\":\"免费注册\",\"key\":\"register\"}]}";
+	        String access_token= "Efqk_1wCpUwEX6U3sRUZ8HVkylWSeQMJqFknVCzf_Ka-lHOMQVCTWuMl6X6UAaOWeEpfQ4KcUc6EcHz2eLBN64gSZWCA_eEfPi-B8MnD68zhYMInHH_N4CyTG3X20HhZFEGeAEAONP";
 	        String action = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token="+access_token;
 	        JSONObject json = OneTools.httpsRequest(action, "POST", menu);
 	        System.out.println(json.toString());
 		}
 		public static void main(String[] args) {
+//			updateAccessToken();
 			createOwnMenue();
 		}
 		

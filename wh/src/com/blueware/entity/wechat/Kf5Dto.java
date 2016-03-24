@@ -6,6 +6,7 @@ public class Kf5Dto {
 	private Long id;
 	private String openId;
 	private String createTime;
+	private String url;
 	private Ticket ticket;
 	
 	public Kf5Dto() {
@@ -39,6 +40,12 @@ public class Kf5Dto {
 	}
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	
 }

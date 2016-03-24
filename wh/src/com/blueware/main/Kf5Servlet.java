@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.blueware.dao.info.SNSUserDaoImpl;
 import com.blueware.dao.wechat.WeChatKf5DaoImpl;
 import com.blueware.entity.wechat.Kf5Dto;
 import com.blueware.init.ConfigInfoDepository;
 import com.blueware.kf5.service.KF5ApiV2;
 import com.blueware.service.WeChatMsgService;
+import com.blueware.wechat.oauth2.SNSUserInfo;
 import com.kf5.support.model.Ticket;
 
 /**
@@ -49,19 +51,24 @@ public class Kf5Servlet extends HttpServlet {
     	String title = request.getParameter("title");
     	String content = request.getParameter("content");
     	System.out.println(title+content+openId);
-        Ticket ticket = KF5ApiV2.createAgentOrder(openId, content, title);
-        if(ticket != null){
-        	String url = ticket.getUrl();
-        	url = "https://oneapm.kf5.com/agent/#/ticket/" + url.substring(37, 43);
-        	ticket.setUrl(url);
-        	Kf5Dto dto = new Kf5Dto();
-        	dto.setOpenId(openId);
-        	dto.setTicket(ticket);
-        	WeChatKf5DaoImpl.getInstance().insert(dto);
-        	response.getWriter().print(ticket.getUrl());
-        }else{
-        	response.getWriter().print("");
-        }
+    	SNSUserInfo suinfo = SNSUserDaoImpl.getInstance().findByOpenId(openId);
+    	if(suinfo.getEmail() != null && suinfo.getEmail().length() > 0){
+    		Ticket ticket = KF5ApiV2.createAgentOrder(openId, content, title,suinfo.getEmail());
+    		if(ticket != null){
+    			String url = ticket.getUrl();
+    			url = "https://oneapm.kf5.com/agent/#/ticket/" + url.substring(37, 43);
+    			ticket.setUrl(url);
+    			Kf5Dto dto = new Kf5Dto();
+    			dto.setOpenId(openId);
+    			dto.setTicket(ticket);
+    			WeChatKf5DaoImpl.getInstance().insert(dto);
+    			response.getWriter().print(ticket.getUrl());
+    		}else{
+    			response.getWriter().print("");
+    		}
+    	}else{
+    		response.getWriter().print("");
+    	}
 	}
 
 }
