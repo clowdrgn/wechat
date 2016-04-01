@@ -13,4 +13,4 @@ hs_err_pid*
 *.properties
 *-config.xml
 *.classpath
-*.settings/org.eclipse.core.resources.prefs
+*.settings
