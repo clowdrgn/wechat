@@ -13,4 +13,5 @@ hs_err_pid*
 *.properties
 *-config.xml
 *.classpath
-*.settings
+wh/WebRoot/WEB-INF/classes/*
+wh/.settings/*
