@@ -20,13 +20,15 @@ public class LeadIdentifyService {
 			return null;
 		}else{
 			Info info = InfoDaoImpl.getInstance().findByEmailOrPhone(email,phone);
+			SNSUserInfo uinfo = new SNSUserInfo();
+			uinfo.setEmail(email);
+			uinfo.setPhone(phone);
+			uinfo.setOpenId(openId);
+			uinfo.setUpdateTime(TimeTools.format());
 			if(info != null){
-				SNSUserInfo uinfo = new SNSUserInfo();
-				uinfo.setEmail(email);
-				uinfo.setPhone(phone);
-				uinfo.setOpenId(openId);
 				uinfo.setUserId(info.getUserId());
-				uinfo.setUpdateTime(TimeTools.format());
+				SNSUserDaoImpl.getInstance().update(uinfo);
+			}else{
 				SNSUserDaoImpl.getInstance().update(uinfo);
 			}
 			return info;

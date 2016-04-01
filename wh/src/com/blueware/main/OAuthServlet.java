@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.blueware.dao.info.SNSUserDaoImpl;
 import com.blueware.init.ConfigInfoDepository;
 import com.blueware.service.LeadIdentifyService;
+import com.blueware.util.TimeTools;
 import com.blueware.wechat.oauth2.SNSUserInfo;
 import com.blueware.wechat.oauth2.WeixinOauth2Token;
 
@@ -51,10 +52,12 @@ public class OAuthServlet extends HttpServlet {
         			String openId = weixinOauth2Token.getOpenId();
 //        			// 获取用户信息
         			SNSUserInfo snsUserInfo = LeadIdentifyService.getSNSUserInfo(accessToken, openId);
+        			snsUserInfo.setCreateTime(TimeTools.format());
         			System.out.println("----------------------------------------------------222222222222222222"+state);
         			System.out.println("----------------------------------------------------333333333333333333"+code);
-        			
-        			SNSUserDaoImpl.getInstance().insert(snsUserInfo);
+        			if(!SNSUserDaoImpl.getInstance().isExist(snsUserInfo)){
+        				SNSUserDaoImpl.getInstance().insert(snsUserInfo);
+        			}
         			request.setAttribute("snsUserInfo", snsUserInfo);
         			request.setAttribute("state", state);
         			request.setAttribute("openId", openId);

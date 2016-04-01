@@ -1,0 +1,189 @@
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_1459392804_5204.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_1459392804_5204.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_1459392804_5204.woff') format('woff'), /* chrome、firefox */
+  url('//at.alicdn.com/t/font_1459392804_5204.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_1459392804_5204.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{
+	font-family:"iconfont";
+	font-size:16px;
+	font-style:normal;
+}                                 
+
+html{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-color: rgba(45,101,203,.89);
+    background-image: radial-gradient(farthest-side ellipse at 10% 0,rgba(119,157,207,.8) 30%,rgba(174,180,186,.8) 76%,rgba(199,175,156,.8));
+    background-image: -webkit-radial-gradient(10% 0,farthest-side ellipse,rgba(119,157,207,.8) 30%,rgba(174,180,186,.8) 76%,rgba(199,175,156,.8));
+    background-image: -moz-radial-gradient(10% 0,farthest-side ellipse,rgba(119,157,207,.8) 30%,rgba(174,180,186,.8) 76%,rgba(199,175,156,.8));
+}
+html.bg-white{
+	background-image: none;
+	background: #fff;
+}
+body{
+	font-family: "Hiragino Sans GB","Helvetica Neue","Helvetica","Arial","Verdana","Microsoft Yahei","sans-serif";
+	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;	
+  	font-size: 16px;
+}
+a{
+	text-decoration: none;
+	color: #333;
+}
+.container{
+	margin: 12% 15px 0;
+}
+.upper{
+	text-align: center;
+}
+.upper .upper-left{
+	display: inline-block;
+	vertical-align: middle;
+	height: 50px;
+}
+.upper .upper-right{
+	display: inline-block;
+	vertical-align: middle;
+	color: #fff;
+}
+.bg-white .upper-right{
+	color: #8a8a8a;
+}
+.divider{
+	border-left:1px solid #ccc;
+	display: inline-block;
+	width: 1px;
+	height: 20px;
+	vertical-align: middle;
+	margin-right: 3px;
+}
+.form-part{
+	text-align: center;
+	width: 100%;
+	margin: 50px auto;
+	color: #fff;
+}
+.bg-white .form-part{
+	color: #8a8a8a;
+}
+.form-part h2{
+	font-weight: 400;
+}
+.form-part .input-box p{
+	margin-bottom: 8px;
+	color: #fff;
+	text-align: left;
+}
+.bg-white .form-part .input-box p{
+	color: #8a8a8a;
+}
+.form-part .input-box input,select{
+	height: 25px;
+	padding: 18px;
+	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing:border-box;
+	font-size: 14px;
+}
+.form-part .btn-part{
+	margin-top: 30px;
+}
+.form-part .btn-part .btn{
+	-webkit-appearance: none; 
+	background: #2493e2;
+    width: 100%;
+    border-radius: 3px;
+    border: none;
+    color: #fff;
+    height: 36px;
+    padding:10px 6px;
+    font-size: 16px;
+    text-align: center;
+}
+#divselect{
+	height: 25px;
+	background: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #ccc;
+    text-align: left;
+    position: relative;
+}
+#divselect span{
+	height: 25px;
+	line-height: 25px;
+	display: block;
+}
+#divselect span:after{
+	font-family: 'iconfont';
+	content: '\e610';
+	float: right;
+	transition: all 0.3s ease-in-out;
+}
+#divselect.open span:after{
+	font-family: 'iconfont';
+	content: '\e610';
+	float: right;
+	transform:rotate(180deg);
+	transition: all 0.3s ease-in-out;
+}
+#divselect ul{
+	display: none;
+	list-style: none;
+	padding-left: 0;
+	margin:2px -6px;
+	background: #fff;
+	border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 5px 5px #ccc;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+#divselect ul li{
+	line-height: 25px;
+	height: 25px;
+	padding: 5px;
+}
+#divselect ul li:hover{
+	background: #fafafa;
+}
+#divselect ul li a{
+	display: block;
+	width: 100%;
+}
+.description-part textarea{
+	width: 100%;
+	box-sizing:border-box;
+	border-radius: 5px;
+	color: #333;
+	border: 1px solid #ccc;
+	padding: 5px;
+	font-size: 16px;
+}
+.btn2-part{
+	text-align: center;
+	padding-top: 10px;
+}
+.btn2-part .btn2{
+	width: 100px;
+	-webkit-appearance: none; 
+	background: #2493e2;
+    border-radius: 3px;
+    border: none;
+    color: #fff;
+    height: 36px;
+    padding:10px 6px;
+    font-size: 16px;
+}
+@media (min-width: 768px){
+	.form-part{
+		width: 60%;
+	}
+}

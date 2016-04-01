@@ -4,40 +4,68 @@
 <html>
 <head>
 <title>请您填写工单信息</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <meta name="keywords" content="Flat Dark Web Login Form Responsive Templates, Iphone Widget Template, Smartphone login forms,Login form, Widget Template, Responsive Templates, a Ipad 404 Templates, Flat Responsive Templates" />
-<link href="css/style.css" rel='stylesheet' type='text/css' />
 <link href="css/weui.css" rel="stylesheet" type="text/css">
-<!--webfonts-->
-<link href='http://fonts.useso.com/css?family=PT+Sans:400,700,400italic,700italic|Oswald:400,300,700' rel='stylesheet' type='text/css'>
-<link href='http://fonts.useso.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
-<!--//webfonts-->
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" >
+<link rel="stylesheet" type="text/css" href="css/webdemo.css">
 <script src="http://ajax.useso.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
-<body>
  <%String openId = (String)request.getAttribute("openId");%>
-<div class="login-form">
-	<div class="close"> </div>
-		<div class="head-info">
+<body>
+		<div class="container">
+			<div class="upper">
+				<div class="upper-left">
+					<img src="https://dn-oneapm.qbox.me/oneapmlogo.png" style="width:50px;">
+					<!-- 用于白色背景样式 began -->
+					<!-- <img src="https://dn-oneapm.qbox.me/oneapmlogo_gray.svg" style="width:50px;"> -->
+					<!-- 用于白色背景样式 end -->
+				</div>	
+				<div class="divider"></div>
+				<div class="upper-right">
+					<span style="font-size:30px;">意见反馈</span>
+				</div>		
+			</div>
+			<div class="form-part">			
+				<form action="#" method="get" id="myform">				
+					<div class="input-box">
+						<p>问题</p>
+							<input class="input-text" type="text" id="title" >
+					</div>
+					<div class="input-box">
+						<p>类型</p>
+						<div id="divselect">
+							<span>请选择类型</span>
+							<ul>
+								<li><a href="javascript:;" selectId=1>Application Insight</a></li>
+								<li><a href="javascript:;" selectId=2>Browser Insight</a></li>
+								<li><a href="javascript:;" selectId=3>Mobile Insight</a></li>
+								<li><a href="javascript:;" selectId=4>OneAPM Servers</a></li>
+								<li><a href="javascript:;" selectId=5>其他</a></li>
+								<li><a href="javascript:;" selectId=6>企业级</a></li>
+								<li><a href="javascript:;" selectId=7>Cloud Insight</a></li>
+								<li><a href="javascript:;" selectId=8>OneAlert</a></li>
+								<li><a href="javascript:;" selectId=9 >Cloud Test</a></li>
+							</ul>
+						</div>
+					</div>			
+					<input type="hidden" value = "<%=openId%>" id="openId">		
+					<input name="hideSelect" type="hidden" value="" id="inputselect"/>
+					<div class="input-box">
+						<p>描述</p>
+						<div class="description-part">
+						<textarea form="myform"  rows="8"  cols="40"  id="content" ></textarea>
+						</div>
+					</div>					
+					<div class="btn-part">
+						<input class="btn" name="submit" value=" 提交" id="submit">
+					</div>				
+				</form>
+			</div>
 		</div>
-			<div class="clear"> </div>
-	<div class="avtar">
-		<img src="images/avtar.png" />
-	</div>
-	
-		<form>
-					<input type="text" class="text" value="标题"  id="title" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '标题';}" >
-					<input type="hidden" value = "<%=openId%>" id="openId">
-					<textarea rows="3" cols="20" style="margin-bottom:3em;margin-top:1em" id="content"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '简述';}">简述</textarea>
-					<!-- <input type="text"  style="margin-bottom:3em;margin-top:1em" id="content" value="简述" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '简述';}"> -->
+				
 					
-			</form>
-	<div class="signin">
-	<input type="submit" value="提交" id="submit">
-	</div>
-	
-</div>
+					
 	 <div id="loadingToast" class="weui_loading_toast" style="display:none;">
     <div class="weui_mask_transparent"></div>
     <div class="weui_toast">
@@ -64,18 +92,13 @@
 	    <div class="weui_mask"></div>
 	    <div class="weui_dialog">
 	        <div class="weui_dialog_hd"><strong class="weui_dialog_title">请填写</strong></div>
-	        <div class="weui_dialog_bd">请填写标题及简述</div>
+	        <div class="weui_dialog_bd">请填写标题简述及产品类型</div>
 	        <div class="weui_dialog_ft">
 	            <a href="#" class="weui_btn_dialog primary">确定</a>
 	        </div>
 	    </div>
 	</div>
 <script>$(document).ready(function(c) {
-	$('.close').on('click', function(c){
-		$('.login-form').fadeOut('slow', function(c){
-	  		$('.login-form').remove();
-		});
-	});	 
 	var $dialog = $('#dialog2');
 	$dialog.find('.weui_btn_dialog').one('click', function () {
 	    $dialog.hide();
@@ -84,7 +107,12 @@
 		var openId = $("#openId").val();
 		var title = $("#title").val();
 		var content = $("#content").val();
+		var leixing = $("#divselect span").text();
 		if((title.length < 2 && content.length < 2) || (title=="标题"||content=="简述")){
+			$(".weui_dialog_alert").attr("style","display:block");
+			return;
+		}
+		if(leixing.length < 2){
 			$(".weui_dialog_alert").attr("style","display:block");
 			return;
 		}
@@ -93,7 +121,8 @@
 	 		{
 				openId:openId,
 				title:title,
-				content:content
+				content:content,
+				leixing:leixing
 			},
 		function(name){
 				if(name != null && name.length > 0){
@@ -107,6 +136,29 @@
 		)
 });
 });
-	
+jQuery.divselect = function(divselectId,inputselectId){
+	var inputselect = $(inputselectId);
+	$(divselectId+" span").click(function(){
+		var myul = $(divselectId+' ul');
+		if(myul.css("display")=="none"){
+			$(divselectId).addClass("open");
+			myul.slideDown();
+		}else{					
+			myul.slideUp();
+			$(divselectId).removeClass("open");
+		}
+	});
+	$(divselectId+" ul li a").click(function(){
+		var mytext = $(this).text();
+		console.log(mytext);
+		$(divselectId+" span").html(mytext);
+		var myvalue = $(this).attr("selectId");
+		inputselect.val(myvalue);
+		$(divselectId+" ul").hide();
+	});
+};
+$(function(){
+	$.divselect("#divselect","#inputselect");
+});
 </script>
 </body></html>

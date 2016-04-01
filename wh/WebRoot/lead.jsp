@@ -3,25 +3,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>	
 <head>
-<title>Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<meta name="keywords" content="Flat Dark Web Login Form Responsive Templates, Iphone Widget Template, Smartphone login forms,Login form, Widget Template, Responsive Templates, a Ipad 404 Templates, Flat Responsive Templates" />
-<link href="css/style.css" rel='stylesheet' type='text/css' />
+<title>完善信息</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" >
 <link href="css/weui.css" rel="stylesheet" type="text/css">
-<!--webfonts-->
-<link href='http://fonts.useso.com/css?family=PT+Sans:400,700,400italic,700italic|Oswald:400,300,700' rel='stylesheet' type='text/css'>
-<link href='http://fonts.useso.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
-<!--//webfonts-->
+<link rel="stylesheet" type="text/css" href="css/webdemo.css">
 <script src="http://ajax.useso.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-</head>
-<body>
-<script>$(document).ready(function(c) {
-	$('.close').on('click', function(c){
-		$('.login-form').fadeOut('slow', function(c){
-	  		$('.login-form').remove();
-		});
-	});	 
+<script>$(document).ready(function() {
 	var $dialog = $('#dialog2');
 	$dialog.find('.weui_btn_dialog').one('click', function () {
 	    $dialog.hide();
@@ -54,28 +41,56 @@
 	});
 });
 </script>
+</head>
+
  <!--SIGN UP-->
+	<body>
  <%String openId = (String)request.getAttribute("openId");%>
-<div class="login-form">
-	<div class="close"> </div>
-		<div class="head-info">
+		<div class="container">
+		<div class="upper">
+			<div class="upper-left">
+				<img src="https://dn-oneapm.qbox.me/oneapmlogo.png" style="width:50px;">
+				<!-- 用于白色背景样式 began -->
+				<!-- <img src="https://dn-oneapm.qbox.me/oneapmlogo_gray.svg" style="width:50px;"> -->
+				<!-- 用于白色背景样式 end -->
+			</div>	
+			<div class="divider"></div>
+			<div class="upper-right">
+				<span style="font-size:30px;">意见反馈</span>
+			</div>		
 		</div>
-			<div class="clear"> </div>
-	<div class="avtar">
-		<img src="images/avtar.png" />
-	</div>
-		<form>
-					<input type="text" class="text" value="邮箱"  id="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '邮箱';}" >
-					<input type="hidden" value = "<%=openId%>" id="openId">
-					<input type="text"  style="margin-bottom:3em;margin-top:1em" id="phone" value="电话" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '电话';}">
-					
+		<div class="form-part">			
+			<form>				
+				<div class="input-box">
+					<p>邮箱</p>
+					<input class="input-text" type="text" name="email" id="email" placeholder="hello@oneapm.com">
+				</div>
+				<div class="input-box">
+					<p>电话</p>
+					<input class="input-text" type="tel"  id="phone"  placeholder="010-12345678">
+				</div>
+				<input type="hidden" value = "<%=openId%>" id="openId">
+				<div class="btn-part">
+					<input class="btn" name="submit"  value="下一步"  id="submit">
+				</div>
 			</form>
-	<div class="signin">
-	<input type="submit" value="提交" id="submit">
-	</div>
+		</div>
+		</div>
 	
-</div>
-	 <div id="loadingToast" class="weui_loading_toast" style="display:none;">
+
+					
+
+<div class="weui_dialog_alert"  id="dialog2" style="display:none">
+	    <div class="weui_mask"></div>
+	    <div class="weui_dialog">
+	        <div class="weui_dialog_hd"><strong class="weui_dialog_title">请填写</strong></div>
+	        <div class="weui_dialog_bd">请填写邮箱电话</div>
+	        <div class="weui_dialog_ft">
+	            <a href="#" class="weui_btn_dialog primary">确定</a>
+	        </div>
+	    </div>
+	</div>
+ <div id="loadingToast" class="weui_loading_toast" style="display:none;">
     <div class="weui_mask_transparent"></div>
     <div class="weui_toast">
         <div class="weui_loading">
@@ -96,17 +111,7 @@
         <p class="weui_toast_content">数据加载中</p>
     </div>
 </div>
-
-<div class="weui_dialog_alert"  id="dialog2" style="display:none">
-	    <div class="weui_mask"></div>
-	    <div class="weui_dialog">
-	        <div class="weui_dialog_hd"><strong class="weui_dialog_title">请填写</strong></div>
-	        <div class="weui_dialog_bd">请填写邮箱电话</div>
-	        <div class="weui_dialog_ft">
-	            <a href="#" class="weui_btn_dialog primary">确定</a>
-	        </div>
-	    </div>
-	</div>
-
 </body>
+
+
 </html>

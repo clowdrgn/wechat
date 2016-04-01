@@ -50,23 +50,29 @@ public class Kf5Servlet extends HttpServlet {
         System.out.println("last！！--！！！！！！！！！！！！！！！！！！"+openId);
     	String title = request.getParameter("title");
     	String content = request.getParameter("content");
+    	String leixing = request.getParameter("leixing");
     	System.out.println(title+content+openId);
     	SNSUserInfo suinfo = SNSUserDaoImpl.getInstance().findByOpenId(openId);
-    	if(suinfo.getEmail() != null && suinfo.getEmail().length() > 0){
-    		Ticket ticket = KF5ApiV2.createAgentOrder(openId, content, title,suinfo.getEmail());
-    		if(ticket != null){
-    			String url = ticket.getUrl();
-    			url = "https://oneapm.kf5.com/agent/#/ticket/" + url.substring(37, 43);
-    			ticket.setUrl(url);
-    			Kf5Dto dto = new Kf5Dto();
-    			dto.setOpenId(openId);
-    			dto.setTicket(ticket);
-    			WeChatKf5DaoImpl.getInstance().insert(dto);
-    			response.getWriter().print(ticket.getUrl());
-    		}else{
-    			response.getWriter().print("");
-    		}
-    	}else{
+    	if(suinfo != null){
+    		if(suinfo.getEmail() != null && suinfo.getEmail().length() > 0){
+        		Ticket ticket = KF5ApiV2.createAgentOrder(openId, content, title,suinfo.getEmail(),leixing);
+        		if(ticket != null){
+        			String url = ticket.getUrl();
+        			url = "https://oneapm.kf5.com/agent/#/ticket/" + url.substring(37, 43);
+        			ticket.setUrl(url);
+        			Kf5Dto dto = new Kf5Dto();
+        			dto.setOpenId(openId);
+        			dto.setTicket(ticket);
+        			WeChatKf5DaoImpl.getInstance().insert(dto);
+        			response.getWriter().print(ticket.getUrl());
+        		}else{
+        			response.getWriter().print("");
+        		}
+        	}else{
+        		response.getWriter().print("");
+        	}
+    	}
+    	else{
     		response.getWriter().print("");
     	}
 	}

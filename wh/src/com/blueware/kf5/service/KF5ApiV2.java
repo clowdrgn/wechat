@@ -16,12 +16,12 @@ public class KF5ApiV2 {
         		e.printStackTrace();
         	}
         }
-	public static Ticket createAgentOrder(String openId,String content,String title,String email){
-			title = "来自微信工单，标题为："+title;
-			content = "来自微信工单，openId为："+openId+"； 内容："+content;
-			System.out.println(title+content);
+	public static Ticket createAgentOrder(String openId,String content,String title,String email,String leixing){
+//			title = "来自微信工单，标题为："+title;
+//			content = "来自微信工单，openId为："+openId+"； 内容："+content;
+//			System.out.println(title+content);
 			KF5ApiV2.init(ConfigInfoDepository.Kf5.HOST, ConfigInfoDepository.Kf5.EMAIL, ConfigInfoDepository.Kf5.PASSWORD);
-			String jsonString = "{ticket:{title: \""+title+"\",\"comment\": {\"content\": \""+content+"\"},\"priority\":\"high\",\"requester\":{\"email\": \""+email+"\",\"name\": \""+email+"\" },\"custom_fields\": [{\"name\": \"field_3361\", \"value\": \"Application Insight\"},{\"name\": \"field_3363\", \"value\": \"Java\"}]}}";
+			String jsonString = "{ticket:{title: \""+title+"\",\"comment\": {\"content\": \""+content+"\"},\"priority\":\"high\",\"requester\":{\"email\": \""+email+"\",\"name\": \""+email+"\" },\"custom_fields\": [{\"name\": \"field_3361\", \"value\": \""+leixing+"\"},{\"name\": \"field_3363\", \"value\": \"Java\"}]}}";
 			System.out.println(jsonString);
 			Ticket t = kf5Support.createAgentOrder(jsonString);
 			return t!=null?t:null;
@@ -32,8 +32,5 @@ public class KF5ApiV2 {
 	}
 	public static Ticket createAgentOrder(String jsonString){
 		return kf5Support.createAgentOrder(jsonString);
-	}
-	public static void main(String[] args) {
-		createAgentOrder("obiHwsgUhayEFPvhIy8bTan0OIaU", "测试", "ceshi", "lijiangtest@qq.com");
 	}
 }
