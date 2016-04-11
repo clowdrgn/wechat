@@ -1,12 +1,15 @@
 package com.blueware.service;
 
 
+import java.util.Date;
 import java.util.List;
 
 import com.blueware.dao.info.InfoDaoImpl;
 import com.blueware.dao.info.SNSUserDaoImpl;
 import com.blueware.entity.manage.Info;
 import com.blueware.init.ConfigInfoDepository;
+import com.blueware.service.mail.SendCloudService;
+import com.blueware.util.MD5Util;
 import com.blueware.util.OneTools;
 import com.blueware.util.TimeTools;
 import com.blueware.wechat.oauth2.SNSUserInfo;
@@ -33,6 +36,10 @@ public class LeadIdentifyService {
 			}
 			return info;
 		}
+	}
+	public static boolean sendEnableEmail(String content,String email){
+		return SendCloudService.sendCloud(email, content, "请您验证邮箱", 0L, 0);
+				            
 	}
 	/**
      * 获取网页授权凭证
@@ -74,7 +81,12 @@ public class LeadIdentifyService {
     }
     public static void main(String[] args) {
     	try {
-			getOauth2AccessToken(ConfigInfoDepository.WorkTime.APPID, ConfigInfoDepository.WorkTime.SECRET, "0214a7d0ec99fc7656664296ecadcc29");
+    		Date currentTime = new Date();
+    		String expireTime = TimeTools.next("2016-04-10 17:00:00", 2);
+    		System.out.println(expireTime);
+            Date date = TimeTools.String2Date(expireTime);
+            if(currentTime.before(date))
+    		 System.out.println(currentTime.before(date));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -50,9 +50,6 @@ public class SendCloudService {
                         // 请求
                         HttpResponse response = httpclient.execute(httpost);
                         //记录
-                        bw.write(TimeTools.format()+"|"+account+"|"+lable+"|"+to+"|"+title);
-                        bw.newLine();
-                        bw.flush();
                         // 处理响应
                         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) { // 正常返回
                                 return true;

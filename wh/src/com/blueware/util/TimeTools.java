@@ -366,5 +366,14 @@ public class TimeTools {
             }
             return 0;
         }
+        public static Date String2Date(String date){
+        	try {
+                Date dt1 = formatTime.parse(date);
+                return dt1;
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+			return null;
+        }
         
 }

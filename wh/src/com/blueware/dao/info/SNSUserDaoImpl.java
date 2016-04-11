@@ -55,9 +55,41 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
             }
             return false;
     }
-        
+        public boolean updateStatus(SNSUserInfo info) {
+            final String sql = "update " + TABLE_NAME + " set status= 1, update_time = '" + info.getUpdateTime() + "' where open_id = '" + info.getOpenId() + "'";
+            DBConnection conn = new DBConnection();
+            try {
+                    return conn.update(sql);
+            } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                    e.printStackTrace();
+            } finally {
+                    conn.close();
+            }
+            return false;
+    }
         public SNSUserInfo findByOpenId(String openId) {
         	String sql = "select * from  " + TABLE_NAME + " where   open_id ='"+openId+"' limit 1 ";
+        	DBConnection conn = new DBConnection();
+        	ResultSet rs = null;
+            try{
+                    rs = conn.query(sql);
+                    while(rs != null && rs.next()){
+                    	SNSUserInfo info = getSNSUserInfoFromResult(rs);
+                            if(info != null){
+                            	return info;
+                            }
+                    }
+            } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                    e.printStackTrace();
+            } finally {
+                    conn.close();
+            }
+            return null;
+        }
+        public SNSUserInfo findByEmail(String email) {
+        	String sql = "select * from  " + TABLE_NAME + " where   email ='"+email+"' limit 1 ";
         	DBConnection conn = new DBConnection();
         	ResultSet rs = null;
             try{
@@ -105,6 +137,11 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
                         email = rs.getString("email").toString();
                 } catch (Exception e) {
                 }
+                String updateTime = null;
+                try {
+                	updateTime = rs.getString("update_time").toString();
+                } catch (Exception e) {
+                }
                 String createTime = null;
                 try {
                         createTime = rs.getString("create_time").toString();
@@ -130,15 +167,28 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
                 		sex = Integer.parseInt(rs.getString("sex").toString().trim());
 				} catch (Exception e) {
 				}
+                int status = 0;
+                try {
+                		status = Integer.parseInt(rs.getString("status").toString().trim());
+				} catch (Exception e) {
+				}
+                String validateCode = null;
+                try {
+                	validateCode = rs.getString("validate_code").toString().trim();
+				} catch (Exception e) {
+				}
                 info = new SNSUserInfo();
                 info.setId(id);
                 info.setOpenId(open_id);
                 info.setEmail(email);
                 info.setPhone(phone);
                 info.setCreateTime(createTime);
+                info.setUpdateTime(updateTime);
                 info.setNickname(nickName);
                 info.setSex(sex);
                 info.setUserId(userId);
+                info.setStatus(status);
+                info.setValidateCode(validateCode);
             }catch(Exception e){
                     LOG.error(e.getMessage(), e);
             }

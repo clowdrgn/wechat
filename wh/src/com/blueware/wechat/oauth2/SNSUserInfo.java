@@ -31,7 +31,19 @@ public class SNSUserInfo {
     
     private String createTime;
     
-    public String getOpenId() {
+    private int status;
+    
+    private String validateCode;
+    public SNSUserInfo(){}
+    public SNSUserInfo(String updateTime, String phone, String email, int status, String validateCode) {
+		this.updateTime = updateTime;
+		this.phone = phone;
+		this.email = email;
+		this.status = status;
+		this.validateCode = validateCode;
+	}
+
+	public String getOpenId() {
         return openId;
     }
 
@@ -141,6 +153,22 @@ public class SNSUserInfo {
 
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getValidateCode() {
+		return validateCode;
+	}
+
+	public void setValidateCode(String validateCode) {
+		this.validateCode = validateCode;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }

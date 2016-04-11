@@ -89,6 +89,14 @@
     <servlet-name>viewKf5</servlet-name>
     <url-pattern>/viewKf5</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>active</servlet-name>
+    <servlet-class>com.blueware.main.ActiveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>active</servlet-name>
+    <url-pattern>/active</url-pattern>
+  </servlet-mapping>
   <listener>
     <listener-class>com.blueware.util.Listener</listener-class>
   </listener>
