@@ -35,12 +35,13 @@ public class SNSUserInfo {
     
     private String validateCode;
     public SNSUserInfo(){}
-    public SNSUserInfo(String updateTime, String phone, String email, int status, String validateCode) {
+    public SNSUserInfo(String updateTime, String phone, String email, int status, String validateCode,String openId) {
 		this.updateTime = updateTime;
 		this.phone = phone;
 		this.email = email;
 		this.status = status;
 		this.validateCode = validateCode;
+		this.openId = openId;
 	}
 
 	public String getOpenId() {

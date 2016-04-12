@@ -18,16 +18,11 @@ import com.blueware.wechat.oauth2.WeixinOauth2Token;
 import net.sf.json.JSONObject;
 
 public class LeadIdentifyService {
-	public static Info IdentifyByMsg(String email,String phone,String openId){
-		if(email == null && phone == null){
+	public static Info IdentifyByMsg(SNSUserInfo uinfo){
+		if(uinfo.getEmail() == null && uinfo.getPhone() == null){
 			return null;
 		}else{
-			Info info = InfoDaoImpl.getInstance().findByEmailOrPhone(email,phone);
-			SNSUserInfo uinfo = new SNSUserInfo();
-			uinfo.setEmail(email);
-			uinfo.setPhone(phone);
-			uinfo.setOpenId(openId);
-			uinfo.setUpdateTime(TimeTools.format());
+			Info info = InfoDaoImpl.getInstance().findByEmailOrPhone(uinfo.getEmail(),uinfo.getPhone());
 			if(info != null){
 				uinfo.setUserId(info.getUserId());
 				SNSUserDaoImpl.getInstance().update(uinfo);

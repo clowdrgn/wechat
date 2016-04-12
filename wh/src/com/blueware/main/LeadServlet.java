@@ -54,9 +54,9 @@ public class LeadServlet extends HttpServlet {
     		request.getRequestDispatcher("emailError.jsp").forward(request, response);
     	}
     	String nowTime = TimeTools.format();
-    	SNSUserInfo uinfo = new SNSUserInfo(nowTime, phone, email, 0, MD5Util.MD5(nowTime+email));
+    	SNSUserInfo uinfo = new SNSUserInfo(nowTime, phone, email, 0, MD5Util.MD5(nowTime+email),openId);
 	    System.out.println(openId);
-	    Info info = LeadIdentifyService.IdentifyByMsg(email,phone,openId);
+	    Info info = LeadIdentifyService.IdentifyByMsg(uinfo);
 	    if(info != null){
 //	    	request.setAttribute("name", info.getName());
 	        StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新激活邮箱，链接只能使用一次，请尽快激活！");  
@@ -67,10 +67,13 @@ public class LeadServlet extends HttpServlet {
 	        sb.append("");  
 	        System.out.println(sb.toString());
 	    	LeadIdentifyService.sendEnableEmail(sb.toString(), email);
-	    	response.getWriter().print(info.getName());
-//	    	request.getRequestDispatcher("BindSuccess.jsp").forward(request, response);
+	    	String content = "激活邮件已经发送！请查收";
+    		request.setAttribute("content", content);
+	    	request.getRequestDispatcher("BindSuccess.jsp").forward(request, response);
 	    }else{
-	    	response.getWriter().print("");
+	    	String content = "您输入的邮箱未注册，请使用oneapm登录邮箱验证";
+    		request.setAttribute("content", content);
+	    	request.getRequestDispatcher("emailError.jsp").forward(request, response);
 //	    	request.setAttribute("name", null);
 //	    	request.getRequestDispatcher("Register.jsp").forward(request, response);
 	    }

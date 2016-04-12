@@ -15,7 +15,10 @@ import com.blueware.entity.wechat.response.NewsMessage;
 import com.blueware.entity.wechat.response.TextMessage;
 import com.blueware.init.ConfigInfoDepository;
 import com.blueware.kf5.service.KF5ApiV2;
+import com.blueware.service.mail.SendCloudService;
+import com.blueware.util.MD5Util;
 import com.blueware.util.MessageUtil;
+import com.blueware.util.TimeTools;
 import com.blueware.util.XmlParse;
 import com.blueware.wechat.oauth2.SNSUserInfo;
 import com.kf5.support.model.Requester;
@@ -103,11 +106,35 @@ public class WeChatMsgService {
 	                			if(judgeStatus(fromUserName)){
 	                				respMessage = newsReply(toUserName, fromUserName, gongdanArs);
 	                			}else{
-	                				respMessage = textReply(toUserName, fromUserName, "您的邮箱未激活！");
+	                				respMessage = textReply(toUserName, fromUserName, "您的邮箱未激活！请在菜单栏：帮助-->激活邮箱中进行激活");
 	                			}
 	                		}else{
 	                			//未填写邮箱，引导填写
 	                			respMessage = newsReply(toUserName, fromUserName, arlist);
+	                		}
+	                	}
+	                	if(eventKey.equals("emailActive")){
+	                		SNSUserInfo uinfo = findSNSUserByOpenId(fromUserName);
+	                		if(uinfo!=null){
+	                			if(uinfo.getEmail()!=null){
+	                					uinfo.setValidateCode(MD5Util.MD5(TimeTools.format()+uinfo.getEmail()));
+	                					SNSUserDaoImpl.getInstance().update(uinfo);
+	                				  	StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新激活邮箱，链接只能使用一次，请尽快激活！");  
+	                			        sb.append("\">http://augur.oneapm.com/active?email=");   
+	                			        sb.append(uinfo.getEmail());  
+	                			        sb.append("&validateCode=");  
+	                			        sb.append(uinfo.getValidateCode());  
+	                			        sb.append("");  
+	                			        System.out.println(sb.toString());
+	                			    	LeadIdentifyService.sendEnableEmail(sb.toString(), uinfo.getValidateCode());
+	                				respMessage = textReply(toUserName, fromUserName, "您的激活邮件已经发送至:"+uinfo.getEmail()+"，请于48小时内激活");
+	                			}else{
+	                				arlist.get(0).setDescription("您尚未绑定邮箱，请点击此处绑定邮箱");
+	                				respMessage = newsReply(toUserName, fromUserName, arlist);
+	                			}
+	                		}else{
+	                			arlist.get(0).setDescription("您尚未关注/授权，请点击此处绑定邮箱");
+                				respMessage = newsReply(toUserName, fromUserName, arlist);
 	                		}
 	                	}
 	                	if(eventKey.equals("register")){
@@ -115,21 +142,25 @@ public class WeChatMsgService {
 	                	}
 	                	if(eventKey.equals("viewKf5")){
 	                		if(judgeUserInfo(fromUserName)){
-	                			List<Ticket> tickets = findKf5TicketsByOpenId(fromUserName);
-	                			List<Article> kf5List = new ArrayList<Article>();
-	                			for(Ticket t : tickets){
-	                				Article kf5 = new Article();
-	                				kf5.setTitle("创建于"+t.getCreatedAt()+"的工单处理进度:"+t.getStatus());
-	                				kf5.setDescription("创建于"+t.getCreatedAt()+"单号为"+t.getId()+"的工单处理进度:"+t.getStatus());
-	                				String kf5Url = t.getUrl();
-	                				kf5Url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+ConfigInfoDepository.WorkTime.APPID+"&redirect_uri=http%3A%2F%2Faugur.oneapm.com%2FviewKf5%3Fticket%3D"+ kf5Url.substring(37, 43)+"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
-	                				kf5.setUrl(kf5Url);
-	                				kf5List.add(kf5);
-	                			}
-	                			if(tickets.size() > 0){
-	                				respMessage = newsReply(toUserName, fromUserName, kf5List);
+	                			if(judgeStatus(fromUserName)){
+	                				List<Ticket> tickets = findKf5TicketsByOpenId(fromUserName);
+	                				List<Article> kf5List = new ArrayList<Article>();
+	                				for(Ticket t : tickets){
+	                					Article kf5 = new Article();
+	                					kf5.setTitle("创建于"+t.getCreatedAt()+"的工单处理进度:"+t.getStatus());
+	                					kf5.setDescription("创建于"+t.getCreatedAt()+"单号为"+t.getId()+"的工单处理进度:"+t.getStatus());
+	                					String kf5Url = t.getUrl();
+	                					kf5Url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+ConfigInfoDepository.WorkTime.APPID+"&redirect_uri=http%3A%2F%2Faugur.oneapm.com%2FviewKf5%3Fticket%3D"+ kf5Url.substring(37, 43)+"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+	                					kf5.setUrl(kf5Url);
+	                					kf5List.add(kf5);
+	                				}
+	                				if(tickets.size() > 0){
+	                					respMessage = newsReply(toUserName, fromUserName, kf5List);
+	                				}else{
+	                					respMessage = textReply(toUserName, fromUserName, "您没有创建过任何工单！");
+	                				}
 	                			}else{
-	                				respMessage = textReply(toUserName, fromUserName, "您没有创建过任何工单！");
+	                				respMessage = textReply(toUserName, fromUserName, "您的邮箱未激活！请在菜单栏：帮助-->激活邮箱中进行激活");
 	                			}
 	                			//已经填写邮箱，查看工单
 	                		}else{
@@ -206,6 +237,9 @@ public class WeChatMsgService {
 			 }
 		 }
 		return false;
+	 }
+	 public static SNSUserInfo findSNSUserByOpenId(String openId){
+		 return SNSUserDaoImpl.getInstance().findByOpenId(openId);
 	 }
 	 public static String findKf5ByOpenId(String openId){
 		 StringBuilder sb = new StringBuilder();

@@ -27,8 +27,8 @@
 					openId:openId,
 					phone:phone,
 					email:email
-				},
-			function(name){
+				}
+			/* function(name){
 					if(name != null && name.length > 0){
 						$("#loadingToast").attr("style","display:none");
 						window.location.href="BindSuccess.jsp";
@@ -36,7 +36,7 @@
 						$("#loadingToast").attr("style","display:none");
 						window.location.href="Register.jsp";
 					}
-				}	
+				} */	
 			)
 	});
 });
@@ -60,7 +60,7 @@
 			</div>		
 		</div>
 		<div class="form-part">			
-			<form>				
+			<form >				
 				<div class="input-box">
 					<p>邮箱</p>
 					<input class="input-text" type="text" name="email" id="email" placeholder="hello@oneapm.com">

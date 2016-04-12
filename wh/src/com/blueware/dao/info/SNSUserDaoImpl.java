@@ -43,7 +43,7 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
 
         
         public boolean update(SNSUserInfo info) {
-            final String sql = "update " + TABLE_NAME + " set user_id= '" + info.getUserId() + "', update_time = '" + info.getUpdateTime() + "', email = '" + info.getEmail() + "',phone = '" + info.getPhone() + "' where open_id = '" + info.getOpenId() + "'";
+            final String sql = "update " + TABLE_NAME + " set user_id= '" + info.getUserId() + "',validate_code = '" + info.getValidateCode() + "', update_time = '" + info.getUpdateTime() + "', email = '" + info.getEmail() + "',phone = '" + info.getPhone() + "' where open_id = '" + info.getOpenId() + "'";
             DBConnection conn = new DBConnection();
             try {
                     return conn.update(sql);
@@ -109,9 +109,9 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
             return null;
         }
         public boolean insert(SNSUserInfo info) {
-                String sql = "INSERT INTO " + TABLE_NAME + " (user_id,email,phone,create_time,open_id,nick_name,sex,country,province,city,headImgUrl)" + "VALUES('" + info.getUserId()+ "',"
+                String sql = "INSERT INTO " + TABLE_NAME + " (user_id,email,phone,create_time,open_id,nick_name,sex,country,province,city,headImgUrl,status)" + "VALUES('" + info.getUserId()+ "',"
                 		+ "'" + info.getEmail() + "','" + info.getPhone() + "','" + info.getCreateTime()+ "','" + info.getOpenId() + "','" + info.getNickname() + "','"+info.getSex()+"','"
-                				+""+info.getCountry()+"','"+info.getProvince()+"','"+info.getCity()+"','"+info.getHeadImgUrl()+"')";
+                				+""+info.getCountry()+"','"+info.getProvince()+"','"+info.getCity()+"','"+info.getHeadImgUrl()+"',0)";
                 DBConnection conn = new DBConnection();
                 try {
                         return conn.insert(sql);
