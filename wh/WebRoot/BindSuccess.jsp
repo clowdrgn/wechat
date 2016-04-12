@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="css/webdemo.css">
 	</head>
 	<body>
+	<%String content = (String)request.getAttribute("content");%>
 		<div class="container">
 			<div class="upper">
 				<img src="https://dn-oneapm.qbox.me/oneapmlogo.png" style="width:100px;">	
@@ -19,9 +20,7 @@
 				<!-- 用于白色背景样式 end -->	
 			</div>
 			<div class="form-part">			
-				<h2>感谢您的反馈,</h2>
-				<h2>您现在可以创建工单 ,</h2>
-				<h2>我们将尽快与您联系</h2>
+				<h2><%=content%></h2>
 			</div>
 			<div class="btn2-part">
 				<button type="button" class="btn2" onclick="WeixinJSBridge.call('closeWindow');"> 确定</button>

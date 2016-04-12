@@ -36,7 +36,7 @@ public class ActiveServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String validateCode = request.getParameter("validateCode");
 		SNSUserInfo user = SNSUserDaoImpl.getInstance().findByEmail(email);
-		
+		String content = "";
 		try {
 	     if(user!=null) {    
 	            //验证用户激活状态    
@@ -52,18 +52,28 @@ public class ActiveServlet extends HttpServlet {
 	                        user.setStatus(1);//把状态改为激活  
 	                        user.setUpdateTime(TimeTools.format());
 	                        SNSUserDaoImpl.getInstance().updateStatus(user);
-	                        response.getWriter().append("激活成功！");
+	                        content = "激活成功！";
+	                        request.setAttribute("content", content);
+	                        request.getRequestDispatcher("BindSuccess.jsp").forward(request, response);
 	                    } else {    
-	                    	response.getWriter().append("激活码不正确");
+	                    	content = "激活码不正确";
+		                    request.setAttribute("content", content);
+		                    request.getRequestDispatcher("emailError.jsp").forward(request, response);
 	                    }    
 	                } else { 
-	                	response.getWriter().append("激活码已过期！");
+	                	content = "激活码已过期";
+	                    request.setAttribute("content", content);
+	                    request.getRequestDispatcher("emailError.jsp").forward(request, response);
 	                }    
 	            } else {  
-	            	
+	            	content = "您已经激活过了";
+                    request.setAttribute("content", content);
+                    request.getRequestDispatcher("BindSuccess.jsp").forward(request, response);
 	            }    
 	        } else {  
-	        	response.getWriter().append("该邮箱未注册（邮箱地址不存在）！");
+	        	content = "该邮箱未注册（邮箱地址不存在）！";
+                request.setAttribute("content", content);
+                request.getRequestDispatcher("emailError.jsp").forward(request, response);
 	        }    
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

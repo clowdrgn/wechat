@@ -49,17 +49,18 @@ public class LeadServlet extends HttpServlet {
     	String email = request.getParameter("email");
     	SNSUserInfo f = SNSUserDaoImpl.getInstance().findByEmail(email);
     	if(f!=null){
-    		request.getRequestDispatcher("emailError.jsp");
+    		String content = "该邮箱已经被激活过了！";
+    		request.setAttribute("content", content);
+    		request.getRequestDispatcher("emailError.jsp").forward(request, response);
     	}
     	String nowTime = TimeTools.format();
     	SNSUserInfo uinfo = new SNSUserInfo(nowTime, phone, email, 0, MD5Util.MD5(nowTime+email));
 	    System.out.println(openId);
-//	    Info info = LeadIdentifyService.IdentifyByMsg(email,phone,openId);
-	    Info info = new Info();
+	    Info info = LeadIdentifyService.IdentifyByMsg(email,phone,openId);
 	    if(info != null){
 //	    	request.setAttribute("name", info.getName());
 	        StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新激活邮箱，链接只能使用一次，请尽快激活！");  
-	        sb.append("\">http://localhost:8081/wh/active?email=");   
+	        sb.append("\">http://augur.oneapm.com/active?email=");   
 	        sb.append(email);  
 	        sb.append("&validateCode=");  
 	        sb.append(uinfo.getValidateCode());  

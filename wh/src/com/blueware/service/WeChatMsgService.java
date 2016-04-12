@@ -100,7 +100,11 @@ public class WeChatMsgService {
 	                	if(eventKey.equals("commitKf5")){
 	                		if(judgeUserInfo(fromUserName)){
 	                			//已经填写邮箱，创建工单
-	                			respMessage = newsReply(toUserName, fromUserName, gongdanArs);
+	                			if(judgeStatus(fromUserName)){
+	                				respMessage = newsReply(toUserName, fromUserName, gongdanArs);
+	                			}else{
+	                				respMessage = textReply(toUserName, fromUserName, "您的邮箱未激活！");
+	                			}
 	                		}else{
 	                			//未填写邮箱，引导填写
 	                			respMessage = newsReply(toUserName, fromUserName, arlist);
@@ -191,6 +195,17 @@ public class WeChatMsgService {
 		 } else{
 			 return true;
 		 }
+	 }
+	 public static boolean judgeStatus(String openId){
+		 SNSUserInfo info = SNSUserDaoImpl.getInstance().findByOpenId(openId);
+		 if(info !=null){
+			 if( info.getStatus() == 0){
+				 return false;
+			 }else{
+				 return true;
+			 }
+		 }
+		return false;
 	 }
 	 public static String findKf5ByOpenId(String openId){
 		 StringBuilder sb = new StringBuilder();
