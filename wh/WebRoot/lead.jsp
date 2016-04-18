@@ -10,36 +10,22 @@
 <script src="http://ajax.useso.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>$(document).ready(function() {
 	var $dialog = $('#dialog2');
-	$dialog.find('.weui_btn_dialog').one('click', function () {
+	$dialog.find('.weui_btn_dialog').click(function () {
 	    $dialog.hide();
 	});
-	$("#submit").click(function(){
-			var openId = $("#openId").val();
-			var phone = $("#phone").val();
-			var email = $("#email").val();
-			if((phone.length < 2 && email.length < 2) || (phone=="电话"||email=="邮箱")){
-				$(".weui_dialog_alert").attr("style","display:block");
-				return;
-			}
-			$("#loadingToast").attr("style","display:block");
-			$.post("lead",
-		 		{
-					openId:openId,
-					phone:phone,
-					email:email
-				}
-			/* function(name){
-					if(name != null && name.length > 0){
-						$("#loadingToast").attr("style","display:none");
-						window.location.href="BindSuccess.jsp";
-					}else{
-						$("#loadingToast").attr("style","display:none");
-						window.location.href="Register.jsp";
-					}
-				} */	
-			)
-	});
+	 
 });
+function Cmd(){
+	var openId = $("#openId").val();
+	var phone = $("#phone").val();
+	var email = $("#email").val();
+	if((phone.length < 5 && email.length < 5) || (phone=="电话"||email=="邮箱")){
+		$(".weui_dialog_alert").attr("style","display:block");
+		return false;
+	}
+	$("#loadingToast").attr("style","display:block");
+    return true;
+}
 </script>
 </head>
 
@@ -60,18 +46,18 @@
 			</div>		
 		</div>
 		<div class="form-part">			
-			<form >				
+			<form action="lead" method="post">				
 				<div class="input-box">
 					<p>邮箱</p>
 					<input class="input-text" type="text" name="email" id="email" placeholder="hello@oneapm.com">
 				</div>
 				<div class="input-box">
 					<p>电话</p>
-					<input class="input-text" type="tel"  id="phone"  placeholder="010-12345678">
+					<input class="input-text" type="tel"  id="phone" name="phone" placeholder="010-12345678">
 				</div>
-				<input type="hidden" value = "<%=openId%>" id="openId">
+				<input type="hidden" value = "<%=openId%>" id="openId" name = "openId">
 				<div class="btn-part">
-					<input class="btn" name="submit"  value="下一步"  id="submit">
+					<input class="btn"  type="submit" value="下一步"  id="submit" onclick="return Cmd();"/>
 				</div>
 			</form>
 		</div>

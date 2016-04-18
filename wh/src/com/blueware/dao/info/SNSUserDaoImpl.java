@@ -88,6 +88,26 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
             }
             return null;
         }
+        public SNSUserInfo findByOpenId_lead(String openId) {
+        	String sql = "select * from  " + TABLE_NAME + " where   openId_lead ='"+openId+"' limit 1 ";
+        	DBConnection conn = new DBConnection();
+        	ResultSet rs = null;
+            try{
+                    rs = conn.query(sql);
+                    while(rs != null && rs.next()){
+                    	SNSUserInfo info = getSNSUserInfoFromResult(rs);
+                            if(info != null){
+                            	return info;
+                            }
+                    }
+            } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                    e.printStackTrace();
+            } finally {
+                    conn.close();
+            }
+            return null;
+        }
         public SNSUserInfo findByEmail(String email) {
         	String sql = "select * from  " + TABLE_NAME + " where   email ='"+email+"' limit 1 ";
         	DBConnection conn = new DBConnection();
@@ -109,9 +129,9 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
             return null;
         }
         public boolean insert(SNSUserInfo info) {
-                String sql = "INSERT INTO " + TABLE_NAME + " (user_id,email,phone,create_time,open_id,nick_name,sex,country,province,city,headImgUrl,status)" + "VALUES('" + info.getUserId()+ "',"
+                String sql = "INSERT INTO " + TABLE_NAME + " (user_id,email,phone,create_time,open_id,nick_name,sex,country,province,city,headImgUrl,status,openId_lead)" + "VALUES('" + info.getUserId()+ "',"
                 		+ "'" + info.getEmail() + "','" + info.getPhone() + "','" + info.getCreateTime()+ "','" + info.getOpenId() + "','" + info.getNickname() + "','"+info.getSex()+"','"
-                				+""+info.getCountry()+"','"+info.getProvince()+"','"+info.getCity()+"','"+info.getHeadImgUrl()+"',0)";
+                				+""+info.getCountry()+"','"+info.getProvince()+"','"+info.getCity()+"','"+info.getHeadImgUrl()+"',0,'"+info.getOpenId_lead()+"')";
                 DBConnection conn = new DBConnection();
                 try {
                         return conn.insert(sql);
@@ -177,6 +197,11 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
                 	validateCode = rs.getString("validate_code").toString().trim();
 				} catch (Exception e) {
 				}
+                String openId_lead = null;
+                try {
+                	openId_lead = rs.getString("openId_lead").toString().trim();
+				} catch (Exception e) {
+				}
                 info = new SNSUserInfo();
                 info.setId(id);
                 info.setOpenId(open_id);
@@ -189,6 +214,7 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
                 info.setUserId(userId);
                 info.setStatus(status);
                 info.setValidateCode(validateCode);
+                info.setOpenId_lead(openId_lead);
             }catch(Exception e){
                     LOG.error(e.getMessage(), e);
             }

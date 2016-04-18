@@ -117,17 +117,23 @@ public class WeChatMsgService {
 	                		SNSUserInfo uinfo = findSNSUserByOpenId(fromUserName);
 	                		if(uinfo!=null){
 	                			if(uinfo.getEmail()!=null){
+	                				if(uinfo.getUserId()!=null){
 	                					uinfo.setValidateCode(MD5Util.MD5(TimeTools.format()+uinfo.getEmail()));
+	                					uinfo.setUpdateTime(TimeTools.format());
 	                					SNSUserDaoImpl.getInstance().update(uinfo);
-	                				  	StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新激活邮箱，链接只能使用一次，请尽快激活！");  
-	                			        sb.append("\">http://augur.oneapm.com/active?email=");   
-	                			        sb.append(uinfo.getEmail());  
-	                			        sb.append("&validateCode=");  
-	                			        sb.append(uinfo.getValidateCode());  
-	                			        sb.append("");  
-	                			        System.out.println(sb.toString());
-	                			    	LeadIdentifyService.sendEnableEmail(sb.toString(), uinfo.getValidateCode());
-	                				respMessage = textReply(toUserName, fromUserName, "您的激活邮件已经发送至:"+uinfo.getEmail()+"，请于48小时内激活");
+	                					StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新激活邮箱，链接只能使用一次，请尽快激活！");  
+	                					sb.append("\"><a href='http://augur.oneapm.com/active?email="+MD5Util.MD5(uinfo.getEmail())+"&validateCode="+uinfo.getValidateCode()+"'>请点击此处</a>");
+	                					sb.append("若无法点击，请将此链接复制到浏览器打开>http://augur.oneapm.com/active?email=");
+	                					sb.append(uinfo.getEmail());  
+	                					sb.append("&validateCode=");  
+	                					sb.append(uinfo.getValidateCode());  
+	                					sb.append("");  
+	                					System.out.println(sb.toString());
+	                					LeadIdentifyService.sendEnableEmail(sb.toString(), uinfo.getEmail());
+	                					respMessage = textReply(toUserName, fromUserName, "您的激活邮件已经发送至:"+uinfo.getEmail()+"，请于48小时内激活");
+	                				}else{
+	                					respMessage = textReply(toUserName, fromUserName, "您输入的邮箱未注册，请使用oneapm登录邮箱验证");
+	                				}
 	                			}else{
 	                				arlist.get(0).setDescription("您尚未绑定邮箱，请点击此处绑定邮箱");
 	                				respMessage = newsReply(toUserName, fromUserName, arlist);

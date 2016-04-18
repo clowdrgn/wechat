@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.blueware.dao.info.SNSUserDaoImpl;
 import com.blueware.init.ConfigInfoDepository;
 import com.blueware.service.LeadIdentifyService;
+import com.blueware.util.MD5Util;
 import com.blueware.util.TimeTools;
 import com.blueware.wechat.oauth2.SNSUserInfo;
 import com.blueware.wechat.oauth2.WeixinOauth2Token;
@@ -55,12 +56,14 @@ public class OAuthServlet extends HttpServlet {
         			snsUserInfo.setCreateTime(TimeTools.format());
         			System.out.println("----------------------------------------------------222222222222222222"+state);
         			System.out.println("----------------------------------------------------333333333333333333"+code);
+        			String openId_lead = MD5Util.MD5(openId+snsUserInfo.getCreateTime());
+        			snsUserInfo.setOpenId_lead(openId_lead);
         			if(!SNSUserDaoImpl.getInstance().isExist(snsUserInfo)){
         				SNSUserDaoImpl.getInstance().insert(snsUserInfo);
         			}
         			request.setAttribute("snsUserInfo", snsUserInfo);
         			request.setAttribute("state", state);
-        			request.setAttribute("openId", openId);
+        			request.setAttribute("openId", openId_lead);
         			request.getRequestDispatcher("lead.jsp").forward(request, response);
         		} catch (Exception e) {
         			e.printStackTrace();

@@ -33,6 +33,8 @@ public class SNSUserInfo {
     
     private int status;
     
+    private String openId_lead;
+    
     private String validateCode;
     public SNSUserInfo(){}
     public SNSUserInfo(String updateTime, String phone, String email, int status, String validateCode,String openId) {
@@ -170,6 +172,12 @@ public class SNSUserInfo {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getOpenId_lead() {
+		return openId_lead;
+	}
+	public void setOpenId_lead(String openId_lead) {
+		this.openId_lead = openId_lead;
 	}
 
 }
