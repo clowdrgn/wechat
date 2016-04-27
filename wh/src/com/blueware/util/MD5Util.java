@@ -25,4 +25,28 @@ public class MD5Util {
 	            return null;
 	        }
 	    }
+	   public static String KL(String inStr) {    
+		   char[] a = inStr.toCharArray();    
+		   for (int i = 0; i < a.length; i++) {    
+		    a[i] = (char) (a[i] ^ 't');    
+		   }    
+		   String s = new String(a);    
+		   return s;    
+		  }    
+		     
+	   public static String JM(String inStr) {    
+		   char[] a = inStr.toCharArray();    
+		   for (int i = 0; i < a.length; i++) {    
+		    a[i] = (char) (a[i] ^ 't');    
+		   }    
+		   String k = new String(a);    
+		   return k;    
+		  }    
+	   public static void main(String[] args) {
+		String s = "384592648@qq.com";
+		System.out.println("原始：" + s);    
+		  System.out.println("MD5后：" + MD5(s));    
+		  System.out.println("MD5后再加密：" + KL(MD5(s)));    
+		  System.out.println("解密为MD5后的：" + JM(KL(MD5(s))));    
+	}
 }

@@ -52,38 +52,40 @@ public class LeadServlet extends HttpServlet {
     		String content = "未找到该用户！";
     		request.setAttribute("content", content);
     		request.getRequestDispatcher("emailError.jsp").forward(request, response);
-    	}
-    	SNSUserInfo f1 = SNSUserDaoImpl.getInstance().findByEmail(email);
-    	if(f1!=null){
-    		String content = "该邮箱已经被激活过了！";
-    		request.setAttribute("content", content);
-    		request.getRequestDispatcher("emailError.jsp").forward(request, response);
-    	}
-    	String nowTime = TimeTools.format();
-    	SNSUserInfo uinfo = new SNSUserInfo(nowTime, phone, email, 0, MD5Util.MD5(nowTime+email),openId);
-	    System.out.println(openId);
-	    Info info = LeadIdentifyService.IdentifyByMsg(uinfo);
-	    if(info != null){
+    	}else{
+    		
+    		SNSUserInfo f1 = SNSUserDaoImpl.getInstance().findByEmail(email);
+    		if(f1!=null){
+    			String content = "该邮箱已经被激活过了！";
+    			request.setAttribute("content", content);
+    			request.getRequestDispatcher("emailError.jsp").forward(request, response);
+    		}else{
+    			
+    			String nowTime = TimeTools.format();
+    			SNSUserInfo uinfo = new SNSUserInfo(nowTime, phone, email, 0, MD5Util.MD5(nowTime+email),openId);
+    			uinfo.setOpenId_lead(openId);
+    			Info info = LeadIdentifyService.IdentifyByMsg(uinfo);
+    			if(info != null){
 //	    	request.setAttribute("name", info.getName());
-	    	StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新激活邮箱，链接只能使用一次，请尽快激活！");  
-			sb.append("\"><a href='http://augur.oneapm.com/active?email="+MD5Util.MD5(uinfo.getEmail())+"&validateCode="+uinfo.getValidateCode()+"'>请点击此处</a>");
-			sb.append("若无法点击，请将此链接复制到浏览器打开>http://augur.oneapm.com/active?email=");
-			sb.append(uinfo.getEmail());  
-			sb.append("&validateCode=");  
-			sb.append(uinfo.getValidateCode());  
-			sb.append("");  
-	        System.out.println(sb.toString());
-	    	LeadIdentifyService.sendEnableEmail(sb.toString(), email);
-	    	String content = "激活邮件已经发送！请查收";
-    		request.setAttribute("content", content);
-	    	request.getRequestDispatcher("BindSuccess.jsp").forward(request, response);
-	    }else{
-	    	String content = "您输入的邮箱未注册，请使用oneapm登录邮箱验证";
-    		request.setAttribute("content", content);
-	    	request.getRequestDispatcher("emailError.jsp").forward(request, response);
-//	    	request.setAttribute("name", null);
-//	    	request.getRequestDispatcher("Register.jsp").forward(request, response);
-	    }
+    				StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新激活邮箱，链接只能使用一次，请尽快激活！");  
+    				sb.append("\"><a href='http://augur.oneapm.com/active?email="+MD5Util.MD5(uinfo.getEmail())+"&validateCode="+uinfo.getValidateCode()+"'>请点击此处</a></br>");
+    				sb.append("若无法点击，请将此链接复制到浏览器打开>http://augur.oneapm.com/active?email=");
+    				sb.append(MD5Util.MD5(uinfo.getEmail()));  
+    				sb.append("&validateCode=");  
+    				sb.append(uinfo.getValidateCode());  
+    				sb.append("");  
+    				System.out.println(sb.toString());
+    				LeadIdentifyService.sendEnableEmail(sb.toString(), email);
+    				String content = "激活邮件已经发送！请查收";
+    				request.setAttribute("content", content);
+    				request.getRequestDispatcher("BindSuccess.jsp").forward(request, response);
+    			}else{
+    				String content = "您输入的邮箱未注册，请使用oneapm登录邮箱验证";
+    				request.setAttribute("content", content);
+    				request.getRequestDispatcher("emailError.jsp").forward(request, response);
+    			}
+    		}
+    	}
 	}
 
 }

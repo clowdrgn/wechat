@@ -55,6 +55,19 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
             }
             return false;
     }
+        public boolean updateBylead(SNSUserInfo info) {
+            final String sql = "update " + TABLE_NAME + " set user_id= '" + info.getUserId() + "',validate_code = '" + info.getValidateCode() + "', update_time = '" + info.getUpdateTime() + "', email = '" + info.getEmail() + "',phone = '" + info.getPhone() + "' where openId_lead = '" + info.getOpenId_lead() + "'";
+            DBConnection conn = new DBConnection();
+            try {
+                    return conn.update(sql);
+            } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                    e.printStackTrace();
+            } finally {
+                    conn.close();
+            }
+            return false;
+    }
         public boolean updateStatus(SNSUserInfo info) {
             final String sql = "update " + TABLE_NAME + " set status= 1, update_time = '" + info.getUpdateTime() + "' where open_id = '" + info.getOpenId() + "'";
             DBConnection conn = new DBConnection();
@@ -90,6 +103,26 @@ public class SNSUserDaoImpl extends DaoImplBase<SNSUserInfo> {
         }
         public SNSUserInfo findByOpenId_lead(String openId) {
         	String sql = "select * from  " + TABLE_NAME + " where   openId_lead ='"+openId+"' limit 1 ";
+        	DBConnection conn = new DBConnection();
+        	ResultSet rs = null;
+            try{
+                    rs = conn.query(sql);
+                    while(rs != null && rs.next()){
+                    	SNSUserInfo info = getSNSUserInfoFromResult(rs);
+                            if(info != null){
+                            	return info;
+                            }
+                    }
+            } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                    e.printStackTrace();
+            } finally {
+                    conn.close();
+            }
+            return null;
+        }
+        public SNSUserInfo findByValidate(String validate) {
+        	String sql = "select * from  " + TABLE_NAME + " where   validate_code ='"+validate+"' limit 1 ";
         	DBConnection conn = new DBConnection();
         	ResultSet rs = null;
             try{

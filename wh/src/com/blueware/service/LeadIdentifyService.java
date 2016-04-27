@@ -25,9 +25,9 @@ public class LeadIdentifyService {
 			Info info = InfoDaoImpl.getInstance().findByEmailOrPhone(uinfo.getEmail(),uinfo.getPhone());
 			if(info != null){
 				uinfo.setUserId(info.getUserId());
-				SNSUserDaoImpl.getInstance().update(uinfo);
+				SNSUserDaoImpl.getInstance().updateBylead(uinfo);
 			}else{
-				SNSUserDaoImpl.getInstance().update(uinfo);
+				SNSUserDaoImpl.getInstance().updateBylead(uinfo);
 			}
 			return info;
 		}

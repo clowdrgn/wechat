@@ -17,6 +17,8 @@ import com.blueware.util.TimeTools;
 import com.blueware.wechat.oauth2.SNSUserInfo;
 import com.blueware.wechat.oauth2.WeixinOauth2Token;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+
 /**
  * Servlet implementation class OAuthServlet
  */
@@ -53,17 +55,22 @@ public class OAuthServlet extends HttpServlet {
         			String openId = weixinOauth2Token.getOpenId();
 //        			// 获取用户信息
         			SNSUserInfo snsUserInfo = LeadIdentifyService.getSNSUserInfo(accessToken, openId);
-        			snsUserInfo.setCreateTime(TimeTools.format());
         			System.out.println("----------------------------------------------------222222222222222222"+state);
         			System.out.println("----------------------------------------------------333333333333333333"+code);
-        			String openId_lead = MD5Util.MD5(openId+snsUserInfo.getCreateTime());
-        			snsUserInfo.setOpenId_lead(openId_lead);
         			if(!SNSUserDaoImpl.getInstance().isExist(snsUserInfo)){
+        				snsUserInfo.setCreateTime(TimeTools.format());
+        				String openId_lead = MD5Util.MD5(openId+snsUserInfo.getCreateTime());
+        				snsUserInfo.setOpenId_lead(openId_lead);
         				SNSUserDaoImpl.getInstance().insert(snsUserInfo);
+        				request.setAttribute("openId", openId_lead);
+        			}else{
+        				snsUserInfo.setUpdateTime(TimeTools.format());
+        				SNSUserDaoImpl.getInstance().update(snsUserInfo);
+        				SNSUserInfo snsUserInfo1 = SNSUserDaoImpl.getInstance().findByOpenId(openId); 
+        				request.setAttribute("openId", snsUserInfo1.getOpenId_lead());
         			}
         			request.setAttribute("snsUserInfo", snsUserInfo);
         			request.setAttribute("state", state);
-        			request.setAttribute("openId", openId_lead);
         			request.getRequestDispatcher("lead.jsp").forward(request, response);
         		} catch (Exception e) {
         			e.printStackTrace();

@@ -122,9 +122,9 @@ public class WeChatMsgService {
 	                					uinfo.setUpdateTime(TimeTools.format());
 	                					SNSUserDaoImpl.getInstance().update(uinfo);
 	                					StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新激活邮箱，链接只能使用一次，请尽快激活！");  
-	                					sb.append("\"><a href='http://augur.oneapm.com/active?email="+MD5Util.MD5(uinfo.getEmail())+"&validateCode="+uinfo.getValidateCode()+"'>请点击此处</a>");
+	                					sb.append("\"><a href='http://augur.oneapm.com/active?email="+MD5Util.MD5(uinfo.getEmail())+"&validateCode="+uinfo.getValidateCode()+"'>请点击此处</a></br>");
 	                					sb.append("若无法点击，请将此链接复制到浏览器打开>http://augur.oneapm.com/active?email=");
-	                					sb.append(uinfo.getEmail());  
+	                					sb.append(MD5Util.MD5(uinfo.getEmail()));  
 	                					sb.append("&validateCode=");  
 	                					sb.append(uinfo.getValidateCode());  
 	                					sb.append("");  
