@@ -61,14 +61,15 @@ public class WeChatMsgService {
 	            
 	            
 	            if(judgeUserInfo(fromUserName)){
-            		respContent = "感谢您的关注！";
+            		respContent = "感谢您关注OneAPM\r\n您的关注是对我们最大的支持\r\n技术问题请提交工单,我们会及时回复\r\n其他问题请联系QQ 2697997703";
             		respMessage = textReply(toUserName, fromUserName, respContent);
             	}else{
             		respMessage = newsReply(toUserName, fromUserName, arlist);
             	}
 	            // 文本消息  
 	            if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {  
-	                respContent = "您发送的是文本消息！";  
+	                respContent = "感谢您关注OneAPM\r\n您的关注是对我们最大的支持\r\n技术问题请提交工单,我们会及时回复\r\n其他问题请联系QQ 2697997703";  
+	                respMessage = textReply(toUserName, fromUserName, respContent);
 	            }  
 	            // 图片消息  
 	            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {  
@@ -92,7 +93,8 @@ public class WeChatMsgService {
 	                String eventType = requestMap.get("Event");  
 	                // 订阅  
 	                if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {  
-	                    respContent = "谢谢您的关注！";  
+	                    respContent = "感谢您关注OneAPM\r\n您的关注是对我们最大的支持\r\n技术问题请提交工单,我们会及时回复\r\n其他问题请联系QQ 2697997703";  
+	                    respMessage = textReply(toUserName, fromUserName, respContent);
 	                }  
 	                // 取消订阅  
 	                else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {  
